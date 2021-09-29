@@ -1,0 +1,53 @@
+.user-img{
+    height: 5em;
+    width: 5em;
+    border-radius: 5em;
+    padding: 0 !important;
+}
+.user-name{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.user-card{
+    padding: 1em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+}
+.user-wrapper{
+    padding: 1em;
+    border-radius: 2em;
+    box-shadow: 0 1px 2px 0 rgb(32 33 36 / 28%);
+}
+.main-wrapper{
+    padding-top: 3em;
+    cursor: pointer;
+}
+.no-users-found{
+    text-align: center;
+}
+
+.select-item-number{
+    width: 5em;
+    padding:0;
+    padding-left: 00.5em;
+    padding-right: 00.5em;
+}
+.page-box{
+    color: mediumslateblue;
+    width: max-content;
+    padding: 0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: white;
+    border: 1px solid mediumslateblue;
+}
+.current-page-box{
+    color: white;
+    background-color: mediumslateblue;
+}
+.line-skeleton-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

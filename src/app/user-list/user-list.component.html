@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <div class="row justify-content-end mt-5">
+        <div style="width: max-content;">Items per page:</div>
+        <input type="number" [(ngModel)]="itemsPerPage" (keydown.enter)="getUserList()" class="select-item-number">
+    </div>
+    <div class="row main-wrapper" *ngIf="showLoader" >
+        <div *ngFor="let user of [].constructor(itemsPerPage)" class="col-md-4 col-sm-6 col-12 user-card container">
+            <div class="row user-wrapper">
+                <div class="col-6">
+                    <ngx-skeleton-loader appearance="circle"
+                    [theme]="{ 
+                        'height': '5em',
+                        'width': '5em',
+                        'border-radius': '5em'
+                    }"></ngx-skeleton-loader>
+                </div>
+                <div class="col-6 line-skeleton-container">
+                    <ngx-skeleton-loader
+                    [theme]="{ 
+                        'margin':'0'
+                    }" appearance="line"></ngx-skeleton-loader>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row main-wrapper" *ngIf="userList != undefined && !showLoader" >
+        <div *ngFor="let user of userList.items" (click)="openUser(user.login)" class="col-md-4 col-sm-6 col-12 user-card container">
+            <div class="row user-wrapper">
+                <div class="col-6">
+                    <img class="user-img" src={{user.avatar_url}}>
+                </div>
+                <div class="col-6 user-name">{{user.login}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="no-users-found w-100" *ngIf="userList!= undefined && userList.total_count == 0 && !showLoader">Oops! No users found</div>
+    <div *ngIf="userList != undefined  && userList.total_count != 0" class="row mb-5 justify-content-center mt-5">
+        <div (click)="earlierPages()" class="page-box">&#60;&#60;</div>
+        <div class="page-box" (click)="selectPage(i + pagerStartIndex)" [ngClass]="{'current-page-box' : i + pagerStartIndex === currentPage}" *ngFor="let item of [].constructor(pagerPageCount); let i = index">{{i + pagerStartIndex}}</div>
+        <div (click)="nextPages()" class="page-box">>></div>
+    </div>
+</div>

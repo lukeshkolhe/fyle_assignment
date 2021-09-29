@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="row search-container justify-content-center">
+        <div class="col-lg-6 col-10">
+            <form class="search-form w-100 mt-5">
+                <div class="search-input-container">
+                    <input [(ngModel)]="searchKeyword" name="searchInput" (keydown.enter)="getUsers()" class="search-input" placeholder="Search">
+                    <div class="justify-content-center" (click)="getUsers()" style="width: 5%; height: 24px;">
+                        <mat-icon class="search-button">search</mat-icon>
+                    </div>
+                </div>
+              </form>
+        </div>
+    </div>
+    <div class="row">
+        <app-user-list [searchKeyword]="searchKeyword"></app-user-list>
+    </div>
+</div>

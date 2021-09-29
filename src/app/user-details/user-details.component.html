@@ -1,0 +1,106 @@
+<div class="container w-100">
+    <div class="row mt-2 ms-3 mb-3" *ngIf="showLoaderDetails">
+        <div class="w-m-c me-5 v-center">
+            <ngx-skeleton-loader class="w-m-c mt-3" appearance="circle" [theme]="{ 
+                'height': '5em',
+                'width': '5em',
+                'border-radius': '5em'
+            }"></ngx-skeleton-loader>
+        </div>
+        <div class="w-m-c v-center">
+            <ngx-skeleton-loader class=" mt-3" [theme]="{ 
+                'margin':'0',
+                'width':'20em'
+            }" appearance="line"></ngx-skeleton-loader>
+            <ngx-skeleton-loader class=" mt-3" [theme]="{ 
+                'margin':'0',
+                'width':'20em'
+            }" appearance="line"></ngx-skeleton-loader>
+            <ngx-skeleton-loader class=" mt-3" [theme]="{ 
+                'margin':'0',
+                'width':'20em'
+            }" appearance="line"></ngx-skeleton-loader>
+            <ngx-skeleton-loader class=" mt-3" [theme]="{ 
+                'margin':'0',
+                'width':'20em'
+            }" appearance="line"></ngx-skeleton-loader>
+        </div>
+    </div>
+    <ngx-skeleton-loader class="ms-3" *ngIf="showLoaderDetails" [theme]="{ 
+        'margin':'0',
+        'width':'20em'
+    }" appearance="line"></ngx-skeleton-loader>
+
+    <div class="row mt-2 ms-3" *ngIf="userDetails != undefined">
+        <div class="w-m-c mt-3 v-center me-5">
+            <img class="user-img" src="{{userDetails.avatar_url}}">
+        </div>
+        <div class="w-m-c mt-3 v-center">
+            <div class="username">{{userDetails.name}}</div>
+            <div *ngIf="userDetails.bio != null" class="bio mt-3">{{userDetails.bio}}</div>
+            <div *ngIf="userDetails.location != null" class="mt-3 location">
+                <mat-icon>place</mat-icon>
+                <div class="v-center ms-1">
+                    <span>{{userDetails.location}}</span>
+                </div>
+            </div>
+            <div *ngIf="userDetails.twitter_username != null" class="bio mt-3">
+                <a href="https://twitter.com/{{userDetails.twitter_username}}">Twitter:
+                    https://twitter.com/{{userDetails.twitter_username}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="userDetails != null && userDetails.html_url != null" class="mt-3 ms-3 location">
+        <mat-icon>link</mat-icon>
+        <div class="v-center ms-1">
+            <a href="{{userDetails.html_url}}">
+                {{userDetails.html_url}}
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-end mt-5">
+            <div style="width: max-content;">Items per page:</div>
+            <input type="number" [(ngModel)]="itemsPerPage" (keydown.enter)="getRepoList()" class="select-item-number">
+        </div>
+        <div class="no-users-found w-100 justify-content-center"
+            *ngIf="repoList!= undefined && repoList.length == 0 && !showLoaderRepo" style="text-align: center;">Oops! No
+            Repos found</div>
+        <div class="repo-loader-container row" *ngIf="showLoaderRepo">
+            <div class="col-12 col-md-6 main-repo-wrapper" *ngFor="let i of [].constructor(itemsPerPage)">
+                <div class="w-100 repo-wrapper">
+                    <div style="display: flex; flex-direction: column;">
+                        <ngx-skeleton-loader class=" mt-3" [theme]="{ 'margin':'0','width':'15em', 'height':'3em'}" appearance="line"></ngx-skeleton-loader>
+                        <ngx-skeleton-loader class=" mt-3" [theme]="{ 'margin':'0','width':'10em' }" appearance="line"></ngx-skeleton-loader>
+                    </div>
+                    <div class="topics-wrapper row">
+                        <div class="w-m-c mt-3" *ngFor="let topic of [].constructor(3)">
+                            <ngx-skeleton-loader class=" mt-3 w-m-c" [theme]="{ 'margin':'0','width':'5em'}" appearance="line"></ngx-skeleton-loader>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="repoList != undefined">
+            <div class="col-12 col-md-6 main-repo-wrapper" *ngFor="let item of repoList">
+                <div class="w-100 repo-wrapper">
+                    <div class="repo-name mb-3">{{item.name}}</div>
+                    <div>{{item.description}}</div>
+                    <div class="topics-wrapper row">
+                        <div class="w-m-c mt-3" *ngFor="let topic of item.topics">
+                            <div *ngIf='topic != ""' class="topic">{{topic.replace('"', "")}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="repoList != undefined" class="row mb-5 justify-content-center mt-5">
+                <div (click)="earlierPages()" class="page-box">&#60;&#60;</div>
+                <div class="page-box" (click)="selectPage(i + pagerStartIndex)"
+                    [ngClass]="{'current-page-box' : i + pagerStartIndex === currentPage}"
+                    *ngFor="let item of [].constructor(pagerPageCount); let i = index">{{i + pagerStartIndex}}</div>
+                <div (click)="nextPages()" class="page-box">>></div>
+            </div>
+        </div>
+    </div>
+</div>

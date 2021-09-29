@@ -34,6 +34,10 @@ export class UserListComponent implements OnInit {
   }
 
   getUserList(){
+    if(this.searchKeyword == ''){
+      alert("please enter a valdi search keyword");
+      return;
+    }
     this.showLoader = true;
     this.githubService.getUserList(this.searchKeyword, this.itemsPerPage, this.currentPage).subscribe(
       (response) => {

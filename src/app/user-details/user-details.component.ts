@@ -30,7 +30,7 @@ export class UserDetailsComponent implements OnInit {
         this.username = param['user-name'];
       }
     )
-    if(this.username == ''){
+    if(this.username == '' || this.username == undefined){
       router.navigate([''])
     }
     

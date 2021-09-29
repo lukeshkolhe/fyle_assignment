@@ -37,6 +37,7 @@
     color: mediumslateblue;
     width: max-content;
     padding: 0.5em;
+    cursor: pointer;
     padding-left: 1em;
     padding-right: 1em;
     background-color: white;

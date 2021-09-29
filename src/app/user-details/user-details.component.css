@@ -18,7 +18,7 @@
 .v-end{
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
 }
 .location{
     display: flex;
@@ -63,6 +63,7 @@
     width: max-content;
     padding: 0.5em;
     padding-left: 1em;
+    cursor: pointer;
     padding-right: 1em;
     background-color: white;
     border: 1px solid mediumslateblue;

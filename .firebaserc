@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "fyleassignment"
+  },
+  "targets": {
+    "fyleassignment": {
+      "hosting": {
+        "fyle": [
+          "fyleassignment"
+        ]
+      }
+    }
+  }
+}

@@ -66,6 +66,9 @@ export class UserDetailsComponent implements OnInit {
         } else {
           this.pagerPageCount = this.defaultPageCount;
         }
+        if(this.currentPage > this.maxPages){
+          this.currentPage = this.maxPages;
+        }
       }
       this.setRepoList();
       for(let i in this.repoList){

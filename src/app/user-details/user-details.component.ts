@@ -13,14 +13,16 @@ export class UserDetailsComponent implements OnInit {
 
   itemsPerPage : number = 10;
   currentPage: number = 1;
-  maxPage: number = 10;
   pagerStartIndex:number = 1;
   pagerPageCount: number = 10;
+  defaultPageCount: number = 10;
+  maxPages: number = 1;
 
 
   showLoaderRepo = true;
   showLoaderDetails = true;
 
+  allReposList : ReposList[] | undefined;
   repoList : ReposList[] | undefined;
   userDetails : UserDetailsModel | undefined;
   username : string = '';
@@ -37,6 +39,11 @@ export class UserDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    if(window.innerWidth < 600){
+      this.pagerPageCount = 5;
+      this.defaultPageCount = 5;
+    }
     this.githubService.getUserDetails(this.username).subscribe
     ( response => {
       this.userDetails = JSON.parse(JSON.stringify(response));
@@ -47,11 +54,20 @@ export class UserDetailsComponent implements OnInit {
 
   getRepoList(){
     this.showLoaderRepo = true;
-    this.githubService.getRepos(this.username, this.itemsPerPage, this.currentPage).subscribe
+    this.githubService.getRepos(this.username).subscribe
     ( response => {
-      this.repoList = JSON.parse(JSON.stringify(response));
-      console.log(this.repoList);
-      
+      this.allReposList = JSON.parse(JSON.stringify(response));
+      if(this.allReposList){
+        if(this.allReposList.length % this.itemsPerPage == 0){
+          this.maxPages = Math.floor(this.allReposList.length / this.itemsPerPage);
+        } else this.maxPages = Math.floor(this.allReposList.length / this.itemsPerPage) + 1;
+        if(this.maxPages < this.defaultPageCount){
+          this.pagerPageCount = this.maxPages;
+        } else {
+          this.pagerPageCount = this.defaultPageCount;
+        }
+      }
+      this.setRepoList();
       for(let i in this.repoList){
         this.githubService.getTopics(this.repoList[Number(i)].languages_url).subscribe(
           topics => {
@@ -74,21 +90,33 @@ export class UserDetailsComponent implements OnInit {
     }
   }
 
+  setRepoList(){
+    
+    this.repoList = this.allReposList?.slice((this.currentPage - 1) * this.itemsPerPage, ((this.currentPage - 1) * this.itemsPerPage) + this.itemsPerPage);
+  }
+
   nextPages(){
-    this.pagerStartIndex = this.pagerStartIndex + this.pagerPageCount;
-    this.currentPage = this.pagerStartIndex;
-    this.getRepoList();
+    if(this.pagerStartIndex + this.pagerPageCount < this.maxPages){
+      this.pagerStartIndex = this.pagerStartIndex + this.pagerPageCount;
+      if(this.maxPages < this.pagerStartIndex + this.pagerPageCount){
+        this.pagerPageCount = this.maxPages - this.pagerStartIndex + 1;
+      }
+      this.currentPage = this.pagerStartIndex;
+      // this.getRepoList();
+      this.setRepoList();}
   }
   earlierPages(){
-    if(this.currentPage > this.pagerPageCount){
+    if(this.pagerStartIndex > this.pagerPageCount){
+      this.pagerPageCount = this.defaultPageCount;
       this.pagerStartIndex = this.pagerStartIndex - this.pagerPageCount;
       this.currentPage = this.pagerStartIndex;
-      this.getRepoList();
+      // this.getRepoList();
+    this.setRepoList();
     }
   }
   selectPage(i: number){
     this.currentPage = i;
-    this.getRepoList();
+    this.setRepoList();
   }
 
 }

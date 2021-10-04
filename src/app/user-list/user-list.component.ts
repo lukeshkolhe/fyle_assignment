@@ -14,9 +14,10 @@ export class UserListComponent implements OnInit {
   searchKeyword!: string;
   itemsPerPage : number = 10;
   currentPage: number = 1;
-  maxPage: number = 10;
+  maxPages: number = 1;
   pagerStartIndex:number = 1;
   pagerPageCount: number = 10;
+  defaultPageCount: number = 10;
   userList!: UserListModel;
   showLoader = false;
   constructor(private githubService: GithubService, private router: Router) { }
@@ -26,6 +27,7 @@ export class UserListComponent implements OnInit {
     
     if(window.innerWidth < 600){
       this.pagerPageCount = 5;
+      this.defaultPageCount = 5;
     }
   }
 
@@ -43,7 +45,15 @@ export class UserListComponent implements OnInit {
       (response) => {
         this.showLoader = false;
         this.userList = JSON.parse(JSON.stringify(response));
-        this.maxPage = this.userList.total_count / this.itemsPerPage;
+        if(this.userList.total_count % this.itemsPerPage == 0){
+          this.maxPages = Math.floor(this.userList.total_count / this.itemsPerPage);
+        } else {
+          this.maxPages = Math.floor((this.userList.total_count / this.itemsPerPage) + 1);
+        }
+        if(this.maxPages < this.defaultPageCount){
+          this.pagerPageCount = this.maxPages;
+        }
+        
       }
     )
   }
@@ -51,12 +61,18 @@ export class UserListComponent implements OnInit {
 
 
   nextPages(){
-    this.pagerStartIndex = this.pagerStartIndex + this.pagerPageCount;
-    this.currentPage = this.pagerStartIndex;
-    this.getUserList();
+    if(this.pagerStartIndex + this.pagerPageCount  < this.maxPages){
+      this.pagerStartIndex = this.pagerStartIndex + this.pagerPageCount;
+      if(this.maxPages < this.pagerStartIndex + this.pagerPageCount){
+        this.pagerPageCount = this.maxPages - this.pagerStartIndex + 1;
+      }
+      this.currentPage = this.pagerStartIndex;
+      this.getUserList();
+    }
   }
   earlierPages(){
-    if(this.currentPage > this.pagerPageCount){
+    if(this.pagerStartIndex > this.pagerPageCount){
+      this.pagerPageCount = this.defaultPageCount;
       this.pagerStartIndex = this.pagerStartIndex - this.pagerPageCount;
       this.currentPage = this.pagerStartIndex;
       this.getUserList();

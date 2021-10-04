@@ -1,3 +1,8 @@
+#Flow chart
+ Created flow diagram before starting development to better understand architecture.
+ https://whimsical.com/fyle-internship-assignment-9WMSpr6xKPtLWV5AnKchur
+
+
 # Fyle
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.1.

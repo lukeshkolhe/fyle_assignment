@@ -98,7 +98,7 @@
                 <div (click)="earlierPages()" class="page-box">&#60;&#60;</div>
                 <div class="page-box" (click)="selectPage(i + pagerStartIndex)"
                     [ngClass]="{'current-page-box' : i + pagerStartIndex === currentPage}"
-                    *ngFor="let item of [].constructor(pagerPageCount); let i = index">{{i + pagerStartIndex}}</div>
+                    *ngFor="let item of [].constructor(pagerPageCount ); let i = index">{{i + pagerStartIndex}}</div>
                 <div (click)="nextPages()" class="page-box">>></div>
             </div>
         </div>

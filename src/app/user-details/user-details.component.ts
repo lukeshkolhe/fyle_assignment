@@ -66,6 +66,10 @@ export class UserDetailsComponent implements OnInit {
         } else {
           this.pagerPageCount = this.defaultPageCount;
         }
+        if(this.pagerStartIndex > this.maxPages){
+          this.pagerStartIndex = 1;
+          this.currentPage = 1;
+        }
         if(this.currentPage > this.maxPages){
           this.currentPage = this.maxPages;
         }

@@ -53,6 +53,10 @@ export class UserListComponent implements OnInit {
         if(this.maxPages < this.defaultPageCount){
           this.pagerPageCount = this.maxPages;
         }
+        if(this.pagerStartIndex > this.maxPages){
+          this.pagerStartIndex = 1;
+          this.currentPage = 1;
+        }
         if(this.currentPage > this.maxPages){
           this.currentPage = this.maxPages;
         }

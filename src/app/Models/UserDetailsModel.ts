@@ -5,6 +5,7 @@ export class UserDetailsModel {
     name : string = '';
     location : string = '';
     twitter_username : string = '';
+    public_repos : number = 0;
     bio : string = '';
     UserDetailsModel() {}
 }

@@ -22,7 +22,6 @@ export class UserDetailsComponent implements OnInit {
   showLoaderRepo = true;
   showLoaderDetails = true;
 
-  allReposList : ReposList[] | undefined;
   repoList : ReposList[] | undefined;
   userDetails : UserDetailsModel | undefined;
   username : string = '';
@@ -48,19 +47,21 @@ export class UserDetailsComponent implements OnInit {
     ( response => {
       this.userDetails = JSON.parse(JSON.stringify(response));
       this.showLoaderDetails = false;
+
+      this.getRepoList();
     })
-    this.getRepoList();
   }
 
   getRepoList(){
     this.showLoaderRepo = true;
-    this.githubService.getRepos(this.username).subscribe
+    this.repoList = undefined;
+    this.githubService.getRepos(this.username, this.itemsPerPage, this.currentPage).subscribe
     ( response => {
-      this.allReposList = JSON.parse(JSON.stringify(response));
-      if(this.allReposList){
-        if(this.allReposList.length % this.itemsPerPage == 0){
-          this.maxPages = Math.floor(this.allReposList.length / this.itemsPerPage);
-        } else this.maxPages = Math.floor(this.allReposList.length / this.itemsPerPage) + 1;
+      this.repoList = JSON.parse(JSON.stringify(response));
+      if(this.repoList && this.userDetails){
+        if(this.userDetails.public_repos % this.itemsPerPage == 0){
+          this.maxPages = Math.floor(this.userDetails.public_repos / this.itemsPerPage);
+        } else this.maxPages = Math.floor(this.userDetails.public_repos / this.itemsPerPage) + 1;
         if(this.maxPages < this.defaultPageCount){
           this.pagerPageCount = this.maxPages;
         } else {
@@ -74,7 +75,6 @@ export class UserDetailsComponent implements OnInit {
           this.currentPage = this.maxPages;
         }
       }
-      this.setRepoList();
       for(let i in this.repoList){
         this.githubService.getTopics(this.repoList[Number(i)].languages_url).subscribe(
           topics => {
@@ -97,11 +97,6 @@ export class UserDetailsComponent implements OnInit {
     }
   }
 
-  setRepoList(){
-    
-    this.repoList = this.allReposList?.slice((this.currentPage - 1) * this.itemsPerPage, ((this.currentPage - 1) * this.itemsPerPage) + this.itemsPerPage);
-  }
-
   nextPages(){
     if(this.pagerStartIndex + this.pagerPageCount < this.maxPages){
       this.pagerStartIndex = this.pagerStartIndex + this.pagerPageCount;
@@ -109,21 +104,20 @@ export class UserDetailsComponent implements OnInit {
         this.pagerPageCount = this.maxPages - this.pagerStartIndex + 1;
       }
       this.currentPage = this.pagerStartIndex;
-      // this.getRepoList();
-      this.setRepoList();}
+      this.getRepoList();
+    }
   }
   earlierPages(){
     if(this.pagerStartIndex > this.pagerPageCount){
       this.pagerPageCount = this.defaultPageCount;
       this.pagerStartIndex = this.pagerStartIndex - this.pagerPageCount;
       this.currentPage = this.pagerStartIndex;
-      // this.getRepoList();
-    this.setRepoList();
+      this.getRepoList();
     }
   }
   selectPage(i: number){
     this.currentPage = i;
-    this.setRepoList();
+    this.getRepoList();
   }
 
 }

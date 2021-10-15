@@ -15,12 +15,8 @@ export class GithubService {
   getUserDetails(userName: string) {
     return this.http.get(this.url + "users/" + userName);
   }
-  // getRepos(userName: string, perPage: number, currentPage: number){
-  //  return this.http.get(this.url + "users/" + userName + "/repos?per_page="+ perPage + "&page=" + currentPage);
-  //  }
-  getRepos(userName: string) {
-    const header = new Headers();
-    return this.http.get(this.url + "users/" + userName + "/repos");
+  getRepos(userName: string, perPage: number, currentPage: number){
+   return this.http.get(this.url + "users/" + userName + "/repos?per_page="+ perPage + "&page=" + currentPage);
   }
   getTopics(url: string) {
     return this.http.get(url);

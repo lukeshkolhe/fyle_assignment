@@ -10,6 +10,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import {MatSelectModule} from '@angular/material/select';
 
 import {FormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -33,6 +34,7 @@ import { UserDetailsComponent } from './user-details/user-details.component';
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
+    MatSelectModule,
     MatButtonModule,
     FormsModule,
     HttpClientModule,

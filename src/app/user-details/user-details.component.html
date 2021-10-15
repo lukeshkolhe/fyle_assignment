@@ -62,7 +62,13 @@
     <div class="container">
         <div class="row justify-content-end mt-5">
             <div style="width: max-content;">Items per page:</div>
-            <input type="number" [(ngModel)]="itemsPerPage" (keydown.enter)="getRepoList()" class="select-item-number">
+            <select [(ngModel)]="itemsPerPage" (change)="getRepoList()" class="w-m-c">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            <!-- <input type="number" [(ngModel)]="itemsPerPage" (keydown.enter)="getRepoList()" class="select-item-number"> -->
         </div>
         <div class="no-users-found w-100 justify-content-center"
             *ngIf="repoList!= undefined && repoList.length == 0 && !showLoaderRepo" style="text-align: center;">Oops! No

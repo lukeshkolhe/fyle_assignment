@@ -1,7 +1,13 @@
 <div class="container-fluid">
     <div class="row justify-content-end mt-5">
         <div style="width: max-content;">Items per page:</div>
-        <input type="number" [(ngModel)]="itemsPerPage" (keydown.enter)="getUserList()" class="select-item-number">
+        <select [(ngModel)]="itemsPerPage" (change)="getUserList()" class="w-m-c">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        <!-- <input type="number" [(ngModel)]="itemsPerPage" (keydown.enter)="getUserList()" class="select-item-number"> -->
     </div>
     <div class="row main-wrapper" *ngIf="showLoader" >
         <div *ngFor="let user of [].constructor(itemsPerPage)" class="col-md-4 col-sm-6 col-12 user-card container">

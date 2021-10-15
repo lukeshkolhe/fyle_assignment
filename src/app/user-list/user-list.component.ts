@@ -23,8 +23,6 @@ export class UserListComponent implements OnInit {
   constructor(private githubService: GithubService, private router: Router) { }
 
   ngOnInit(): void {
-    console.log(window.innerWidth);
-    
     if(window.innerWidth < 600){
       this.pagerPageCount = 5;
       this.defaultPageCount = 5;
@@ -36,13 +34,14 @@ export class UserListComponent implements OnInit {
   }
 
   getUserList(){
+    this.itemsPerPage = Number.parseInt(this.itemsPerPage.toString());
     if(this.searchKeyword == ''){
       alert("please enter a valdi search keyword");
       return;
     }
     this.showLoader = true;
     this.githubService.getUserList(this.searchKeyword, this.itemsPerPage, this.currentPage).subscribe(
-      (response) => {
+      (response) => {        
         this.showLoader = false;
         this.userList = JSON.parse(JSON.stringify(response));
         if(this.userList.total_count % this.itemsPerPage == 0){

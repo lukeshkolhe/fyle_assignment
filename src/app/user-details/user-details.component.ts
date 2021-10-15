@@ -53,6 +53,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   getRepoList(){
+    this.itemsPerPage = Number.parseInt(this.itemsPerPage.toString());
     this.showLoaderRepo = true;
     this.repoList = undefined;
     this.githubService.getRepos(this.username, this.itemsPerPage, this.currentPage).subscribe
